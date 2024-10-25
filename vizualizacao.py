@@ -9,7 +9,7 @@ medalhas = pd.read_csv(r'medals.csv')
 esportes = pd.read_csv(r'sports.csv')
 
 
-df = pd.merge(medalhistas, paises, on='country_id')[['medal', 'country_name']]
+medalhas_por_pais = pd.merge(medalhistas, paises, on='country_id')[['medal', 'country_name']]
 df.columns = ['Medalha', 'País']
 
 # Criar um seletor para escolher o número de países a serem exibidos
