@@ -1,6 +1,7 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
+import plotly.express as px
 
 # Carregar os dados
 medalhistas = pd.read_csv(r'medalists.csv')
@@ -8,6 +9,7 @@ paises = pd.read_csv(r'countries.csv')
 delegacoes = pd.read_csv(r'delegations.csv')
 medalhas = pd.read_csv(r'medals.csv')
 esportes = pd.read_csv(r'sports.csv')
+lugar_nascimento = pd.read_csv(r'birthplace.csv')
 
 # Mesclar medalhistas com países
 df = pd.merge(medalhistas, paises, on='country_id')[['medal', 'country_name']]
