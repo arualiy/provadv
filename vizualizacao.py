@@ -24,28 +24,3 @@ ax.set_ylabel('País')
 
 # Exibir o gráfico no Streamlit
 st.pyplot(fig)
-
-# Filtro para tipo de medalha
-tipos_de_medalha = medalhistas['medal'].unique()
-
-medalha_selecionada = st.selectbox('Escolha o tipo de medalha:', options=tipos_de_medalha)
-# Gerar gráficos de medalhistas por esporte
-# Mesclar medalhistas com esportes
-medalhistas_esporte = pd.merge(medalhistas, esportes, on='sport_id')
-
-# Agrupar o número de medalhistas por esporte
-medalhistas_por_esporte = medalhistas_esporte.groupby('sport')['medalist_name'].count().reset_index()
-medalhistas_por_esporte.columns = ['Esporte', 'Número de Medalhistas']
-
-# Criar o gráfico de medalhistas por esporte
-fig2, ax2 = plt.subplots(figsize=(10, 6))
-medalhistas_por_esporte.plot(kind='bar', x='Esporte', y='Número de Medalhistas', color='green', ax=ax2)
-ax2.set_title('Medalhistas por Esporte')
-ax2.set_ylabel('Número de Medalhistas')
-ax2.set_xlabel('Esporte')
-ax2.set_xticklabels(medalhistas_por_esporte['Esporte'], rotation=90)
-
-# Exibir o gráfico no Streamlit
-st.pyplot(fig2)
-# Exibir o gráfico no Streamlit
-st.pyplot(fig)
