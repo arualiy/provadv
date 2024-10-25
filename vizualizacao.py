@@ -59,3 +59,44 @@ ax2.set_xticklabels(medalhistas_por_esporte['Esporte'], rotation=90)
 
 # Exibir o gráfico no Streamlit
 st.pyplot(fig2)
+
+#Grafico 3 
+# Mesclar medalistas com locais de nascimento
+merged_df = pd.merge(medalhistas, lugar_nascimento, on='birthplace_id', how='left')
+
+# Adicionar coluna para continente (você deve ter uma coluna de continente ou fazer uma correspondência)
+# Exemplo simplificado: Supondo que você tenha um mapeamento de países para continentes
+country_to_continent = {
+    'USA': 'North America',
+    'BRA': 'South America',
+    'CHN': 'Asia',
+    'GBR': 'Europe',
+    # Adicione mais países e seus continentes aqui
+}
+
+# Mapear os países para continentes
+merged_df['continent'] = merged_df['country_id'].map(country_to_continent)
+
+# Streamlit para filtros
+st.title('Mapa de Dispersão de Medalhistas por Continente')
+
+# Seleção de continente
+continents = merged_df['continent'].dropna().unique()
+selected_continent = st.selectbox('Escolha o continente:', options=continents)
+
+# Filtrar dados pelo continente selecionado
+filtered_df = merged_df[merged_df['continent'] == selected_continent]
+
+# Criar o gráfico de dispersão
+fig = px.scatter_geo(filtered_df,
+                     lat='lat',
+                     lon='lon',
+                     text='medalist_name',  # texto para exibir ao passar o mouse
+                     hover_name='medalist_name',
+                     hover_data=['country_id', 'medal'],
+                     title=f'Medalhistas de {selected_continent}',
+                     projection='natural earth')
+
+# Exibir o gráfico no Streamlit
+st.plotly_chart(fig)
+
